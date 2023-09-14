@@ -1,0 +1,7 @@
+bcrypt
+db-migrate
+db-migrate-pg
+dotenv
+express
+nodemon
+pg

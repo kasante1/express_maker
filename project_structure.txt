@@ -1,0 +1,38 @@
+.
+├── database.json
+├── index.js
+├── package.json
+├── package-lock.json
+├── project_structure.txt
+├── README.md
+└── src
+    ├── config
+    │   ├── database.config.js
+    │   ├── env
+    │   │   ├── development.js
+    │   │   ├── index.js
+    │   │   ├── production.js
+    │   │   └── test.js
+    │   └── versioning
+    │       ├── v1.js
+    │       └── v2.js
+    ├── controllers
+    │   ├── post.controller.js
+    │   └── user.controller.js
+    ├── middlewares
+    │   ├── auth.middleware.js
+    │   ├── error.middleware.js
+    │   ├── post.middleware.js
+    │   ├── user.middleware.js
+    │   └── validation.middleware.js
+    ├── queries
+    │   ├── post.js
+    │   └── user.js
+    ├── routes
+    │   ├── post.js
+    │   └── user.js
+    └── services
+        ├── post.service.js
+        └── user.service.js
+
+10 directories, 26 files
