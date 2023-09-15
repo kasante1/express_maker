@@ -5,6 +5,7 @@ import (
 	"os"
 	//"log"
 	"errors"
+	"express_maker/dir_maker"
 	"express_maker/dir_contents"
 	"path/filepath"
 	"strings"
@@ -34,7 +35,14 @@ func NewProjectDirectry(cli_argument string) {
 	
 	// create express js files
 
-	//CreateProjectFiles(project_directory, cli_argument + ".html", dir_contents.HtmlFileContents(cli_argument))
+	dir_maker.SubdirectoryMaker(project_directory, dir_contents.ExpressDirectories) 
+
+	
+	dir_maker.CreateProjectFiles(project_directory, "README.md", dir_contents.ReadMeFile)
+	dir_maker.CreateProjectFiles(project_directory, ".gitignore", dir_contents.GitIgnore)
+	dir_maker.CreateProjectFiles(project_directory, ".env", dir_contents.EnvFile)
+	dir_maker.CreateProjectFiles(project_directory, "database.json", dir_contents.DatabaseJson)
+	dir_maker.CreateProjectFiles(project_directory, "index.js", dir_contents.IndexFile)
 }
 
 
@@ -48,7 +56,7 @@ func NewProjectDirectry(cli_argument string) {
 
 func IsArgumentDirectory(cli_argument string) bool {
 
-	// split cli_argument and test if its a direcoty minus
+	// split cli_argument and test if its a directory minus
 	// the cli_argument is a directory
 
 	if strings.Contains(cli_argument, "/") {
@@ -102,7 +110,7 @@ func AlreadyExist(cli_argument string) error {
 	if _, err := os.Stat(cli_argument); errors.Is(err, os.ErrNotExist) {
 
 		// create directory/folder
-		create_project := CreateProjectDirectory(cli_argument)
+		create_project := dir_maker.CreateProjectDirectory(cli_argument)
 
 		// stop if directory creation fails
 		if create_project != nil {
@@ -122,64 +130,3 @@ func AlreadyExist(cli_argument string) error {
 
 
 
-
-
-// create project directory/folders
-func CreateProjectDirectory(cli_argument string) error {
-
-	err := os.Mkdir(cli_argument, os.ModePerm)
-	if err != nil {
-		return errors.New("[X] Failed! check directory permission")
-	}
-
-	fmt.Println("[OK] project created here :", cli_argument)
-	return nil
-}
-
-
-
-
-
-
-// create project files
-func CreateProjectFiles(SubDirectories, fileName, file_contents string) {
-	
-	// file directory
-	file_path := filepath.Join(SubDirectories, fileName)
-
-	// check if file exist or otherwise
-	_, err := os.Stat(file_path)
-
-	// if file does not exits, create file.
-	if errors.Is(err, os.ErrNotExist) {
-
-		// write content to files
-		WriteProjectFiles(file_path, file_contents)
-
-		fmt.Println("[OK]", fileName, "created succesfully")
-
-	} else {
-
-		fmt.Println("[X]", fileName, "failed. already exits!")
-	}
-}
-
-
-
-
-
-func WriteProjectFiles(fileName, file_contents string) {
-	file, err := os.OpenFile(fileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	defer file.Close()
-
-	if _, err := file.WriteString(file_contents); err != nil {
-		fmt.Println(err)
-	}
-}
-
-// create test directory

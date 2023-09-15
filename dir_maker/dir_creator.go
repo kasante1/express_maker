@@ -1,49 +1,82 @@
- package dir_maker
+package dir_maker
 
+import (
+	"fmt"
+	"os"
 
- import (
-"fmt"
-"log"
-"os"
+	// "log"
+	"errors"
+	"path/filepath"
 )
 
+// create project directory/folders
+func CreateProjectDirectory(cli_argument string) error {
 
-
-
-var ExpressDirectories = []string{
-"src/config/database.config.js",
-"src/env/development.js",
-"src/env/index.js",
-"src/env/production.js",
-"src/env/test.js",
-"src/env/versioning/v1.js",
-"src/env/versioning/v2.js",
-"src/controllers/",
-"src/middlewares/auth.middleware.js",
-"src/middlewares/error.middleware.js",
-"src/middlewares/validation.middleware.js",
-"src/queries/",
-"src/routes/",
-"src/services/",
-"/db/",
-"/helper/",
-}
-
-
-
-
-func dir_maker(path string){
-
-	err := os.MkdirAll(path, 0755)
+	err := os.Mkdir(cli_argument, os.ModePerm)
 
 	if err != nil {
-	log.Fatal(err)
+		return errors.New("[X] Failed! check directory permission")
 	}
 
-	fmt.Println("directory created")
-
+	fmt.Println("[OK] project created here :", cli_argument)
+	return nil
 }
 
-for i range := ExpressDirectories{
-	_ := dir_maker(i)
+// create project files
+func CreateProjectFiles(SubDirectories, fileName, file_contents string) {
+
+	// file directory
+	file_path := filepath.Join(SubDirectories, fileName)
+
+	// check if file exist or otherwise
+	_, err := os.Stat(file_path)
+
+	// if file does not exits, create file.
+	if errors.Is(err, os.ErrNotExist) {
+
+		// write content to files
+		WriteProjectFiles(file_path, file_contents)
+
+		fmt.Println("[OK]", fileName, "created succesfully")
+
+	} else {
+
+		fmt.Println("[X]", fileName, "failed. already exits!")
+	}
+}
+
+func WriteProjectFiles(fileName, file_contents string) {
+	file, err := os.OpenFile(fileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	defer file.Close()
+
+	if _, err := file.WriteString(file_contents); err != nil {
+		fmt.Println(err)
+	}
+}
+
+// create test directory
+
+func SubdirectoryMaker(cwd_dir string, dir_paths []string) {
+
+	// get the defined subdirectories eg: src/controllers/user.controller
+	for _, path := range dir_paths {
+
+		// join the subdirectories to cwd of the project
+		var sub_dir = filepath.Join(cwd_dir, path)
+
+		// create the subdirectories
+		err := os.MkdirAll(sub_dir, 0755)
+
+		if err != nil {
+			fmt.Println("[ x ] failed to create", sub_dir, "directory")
+		}
+
+		fmt.Println("[ OK ] -", sub_dir, " --directory created")
+	}
+
 }
