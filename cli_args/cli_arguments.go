@@ -10,10 +10,12 @@ import (
 	"strings"
 )
 
+
 // if cli_argument is a non exiting directory
 // get CWD and create project there
 func NewProjectDirectry(cli_argument string) {
 
+	// get current directory
 	path, err := os.Getwd()
 
 	if err != nil {
@@ -29,11 +31,17 @@ func NewProjectDirectry(cli_argument string) {
 	if file_status != nil {
 		fmt.Println(file_status)
 	}
-	// create main.go file
-	dir_contents.CreateProjectFiles(project_directory, cli_argument + ".html", dir_contents.HtmlFileContents(cli_argument))
-	dir_contents.CreateProjectFiles(project_directory, cli_argument + ".css", dir_contents.CssFileContents())
-	dir_contents.CreateProjectFiles(project_directory, cli_argument + ".js", dir_contents.JsFileContents())
+	
+	// create express js files
+
+	//CreateProjectFiles(project_directory, cli_argument + ".html", dir_contents.HtmlFileContents(cli_argument))
 }
+
+
+
+
+
+
 
 // is the provided cli_argument a string
 // or a directory
@@ -58,6 +66,13 @@ func IsArgumentDirectory(cli_argument string) bool {
 	return false
 }
 
+
+
+
+
+
+
+
 // split cli_argument if it contains a slash
 func SplitArgument(cli_argument string) (string, string) {
 
@@ -73,7 +88,13 @@ func SplitArgument(cli_argument string) (string, string) {
 	return split_argument[split_argument_length], argument_remainder
 }
 
-// is the cli_argument provided an existing directory
+
+
+
+
+
+
+// check if the cli_argument provided an existing directory
 // project name
 func AlreadyExist(cli_argument string) error {
 
@@ -98,8 +119,14 @@ func AlreadyExist(cli_argument string) error {
 	}
 }
 
+
+
+
+
+
 // create project directory/folders
 func CreateProjectDirectory(cli_argument string) error {
+
 	err := os.Mkdir(cli_argument, os.ModePerm)
 	if err != nil {
 		return errors.New("[X] Failed! check directory permission")
@@ -108,3 +135,51 @@ func CreateProjectDirectory(cli_argument string) error {
 	fmt.Println("[OK] project created here :", cli_argument)
 	return nil
 }
+
+
+
+
+
+
+// create project files
+func CreateProjectFiles(SubDirectories, fileName, file_contents string) {
+	
+	// file directory
+	file_path := filepath.Join(SubDirectories, fileName)
+
+	// check if file exist or otherwise
+	_, err := os.Stat(file_path)
+
+	// if file does not exits, create file.
+	if errors.Is(err, os.ErrNotExist) {
+
+		// write content to files
+		WriteProjectFiles(file_path, file_contents)
+
+		fmt.Println("[OK]", fileName, "created succesfully")
+
+	} else {
+
+		fmt.Println("[X]", fileName, "failed. already exits!")
+	}
+}
+
+
+
+
+
+func WriteProjectFiles(fileName, file_contents string) {
+	file, err := os.OpenFile(fileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	defer file.Close()
+
+	if _, err := file.WriteString(file_contents); err != nil {
+		fmt.Println(err)
+	}
+}
+
+// create test directory
