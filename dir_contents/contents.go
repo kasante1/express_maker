@@ -1,10 +1,5 @@
 package dir_contents
 
-// "errors"
-// "fmt"
-// "os"
-// "path/filepath"
-
 
 var EnvFile = `
 NODE_ENV=development
@@ -15,7 +10,9 @@ SECRET=
 
 
 
-var ReadMeFile = `
+func ReadMeFile(project_name string) string {
+
+	var fileContents = project_name + ` Project
 
 run
 
@@ -25,6 +22,10 @@ npm run start
 on the terminal to start express js project
 
 `
+
+
+	return fileContents
+}
 
 
 

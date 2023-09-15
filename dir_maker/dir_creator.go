@@ -59,6 +59,9 @@ func WriteProjectFiles(fileName, file_contents string) {
 	}
 }
 
+
+
+
 // create test directory
 
 func SubdirectoryMaker(cwd_dir string, dir_paths []string) {
@@ -69,14 +72,29 @@ func SubdirectoryMaker(cwd_dir string, dir_paths []string) {
 		// join the subdirectories to cwd of the project
 		var sub_dir = filepath.Join(cwd_dir, path)
 
-		// create the subdirectories
-		err := os.MkdirAll(sub_dir, 0755)
+		// check if folder exists
 
-		if err != nil {
-			fmt.Println("[ x ] failed to create", sub_dir, "directory")
+		_, err := os.Stat(sub_dir)
+
+		if errors.Is(err, os.ErrNotExist){
+
+			
+			err := os.MkdirAll(sub_dir, 0755)
+
+			if err != nil {
+				fmt.Println("[ x ] failed to create", sub_dir, "directory")
+			}
+	
+			fmt.Println("[ OK ] -", path, " --directory created")
+
+		}else{
+			fmt.Println("[X]", path, " -- failed! directory already exits")
 		}
 
-		fmt.Println("[ OK ] -", sub_dir, " --directory created")
+		
+
+		
+	
 	}
 
 }

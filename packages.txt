@@ -1,7 +1,0 @@
-bcrypt
-db-migrate
-dotenv
-express
-nodemon
-pg
-@eslint/config
