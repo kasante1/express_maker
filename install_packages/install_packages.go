@@ -14,9 +14,9 @@ import (
 // create the project.json file
 func CreatePackageJson(){
 
-	create_package_json := "npm init --y"
+	// create_package_json := "npm init --y"
 
-	cmd := exec.Command(create_package_json)
+	cmd := exec.Command("npm", "init --y")
 
 	// fmt.Println(cmd)
 

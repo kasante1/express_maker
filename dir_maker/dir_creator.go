@@ -1,5 +1,7 @@
 package dir_maker
 
+
+
 import (
 	"fmt"
 	"os"
@@ -8,6 +10,9 @@ import (
 	"errors"
 	"path/filepath"
 )
+
+
+
 
 // create project directory/folders
 func CreateProjectDirectory(cli_argument string) error {
@@ -21,6 +26,11 @@ func CreateProjectDirectory(cli_argument string) error {
 	fmt.Println("[OK] project created here :", cli_argument)
 	return nil
 }
+
+
+
+
+
 
 // create project files
 func CreateProjectFiles(SubDirectories, fileName, file_contents string) {
@@ -45,6 +55,11 @@ func CreateProjectFiles(SubDirectories, fileName, file_contents string) {
 	}
 }
 
+
+
+
+
+// write content into files
 func WriteProjectFiles(fileName, file_contents string) {
 	file, err := os.OpenFile(fileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 
@@ -72,13 +87,12 @@ func SubdirectoryMaker(cwd_dir string, dir_paths []string) {
 		// join the subdirectories to cwd of the project
 		var sub_dir = filepath.Join(cwd_dir, path)
 
+		
 		// check if folder exists
-
 		_, err := os.Stat(sub_dir)
 
 		if errors.Is(err, os.ErrNotExist){
-
-			
+	
 			err := os.MkdirAll(sub_dir, 0755)
 
 			if err != nil {
@@ -91,9 +105,6 @@ func SubdirectoryMaker(cwd_dir string, dir_paths []string) {
 			fmt.Println("[X]", path, " -- failed! directory already exits")
 		}
 
-		
-
-		
 	
 	}
 

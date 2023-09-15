@@ -32,6 +32,7 @@ func NewProjectDirectry(cli_argument string) {
 
 	if file_status != nil {
 		fmt.Println(file_status)
+		os.Exit(0)
 	}
 	
 	// create express js project directories/ folders
