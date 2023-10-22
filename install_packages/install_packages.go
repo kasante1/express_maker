@@ -12,18 +12,24 @@ import (
 
 
 // create the project.json file
-func CreatePackageJson(){
+func CreatePackageJson(project_dir string) {
 
-	// create_package_json := "npm init --y"
+	dir := "cd" + project_dir
 
-	cmd := exec.Command("npm", "init --y")
+	create_package_json := "npm"
+
+	packages_args := "init"
+	
+	auto_all := "--yes"
+
+	cmd := exec.Command(dir,"&&" ,create_package_json, packages_args, auto_all)
 
 	// fmt.Println(cmd)
 
 	output, err := cmd.Output()
 
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println(err)
 	}
 
 	fmt.Println("[OK]", string(output))
@@ -31,19 +37,23 @@ func CreatePackageJson(){
 
 
 
+
+
+
+
 // install npm packages
 
-func InstallPackages(){
+func InstallPackages() {
 
-	packages, err := os.ReadFile("./packages.txt")
+	packages, err := os.ReadFile("/packages.txt")
 
-	if err != nil{
+	if err != nil {
 		panic(err)
 	}
-	
- 	package_contents := string(packages)
 
-	install_command := "npm install" + package_contents
+	package_contents := string(packages)
+
+	install_command := "npm install " + package_contents
 
 	cmd := exec.Command(install_command)
 
@@ -55,4 +65,3 @@ func InstallPackages(){
 
 	fmt.Println(output)
 }
-

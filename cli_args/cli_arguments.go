@@ -49,9 +49,9 @@ func NewProjectDirectry(cli_argument string) {
 
 
 	// create package.json file
-	install_packages.CreatePackageJson()
+	install_packages.CreatePackageJson(project_directory)
 	//install basic packages
-	install_packages.InstallPackages()
+	//install_packages.InstallPackages()
 }
 
 
