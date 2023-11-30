@@ -5,13 +5,12 @@ import (
 	"os"
 	//"log"
 	"errors"
-	"express_maker/dir_maker"
 	"express_maker/dir_contents"
+	"express_maker/dir_maker"
+	"express_maker/install_packages"
 	"path/filepath"
 	"strings"
-	// "express_maker/install_packages"
 )
-
 
 // if cli_argument is a non exiting directory
 // get CWD and create project there
@@ -34,11 +33,10 @@ func NewProjectDirectry(cli_argument string) {
 		fmt.Println(file_status)
 		os.Exit(0)
 	}
-	
-	// create express js project directories/ folders
-	dir_maker.SubdirectoryMaker(project_directory, dir_contents.ExpressDirectories) 
 
-	
+	// create express js project directories/ folders
+	dir_maker.SubdirectoryMaker(project_directory, dir_contents.ExpressDirectories)
+
 	// create express js project files
 	dir_maker.CreateProjectFiles(project_directory, "README.md", dir_contents.ReadMeFile(cli_argument))
 	dir_maker.CreateProjectFiles(project_directory, "package.json", dir_contents.PackageJson(cli_argument))
@@ -47,15 +45,14 @@ func NewProjectDirectry(cli_argument string) {
 	dir_maker.CreateProjectFiles(project_directory, "database.json", dir_contents.DatabaseJson)
 	dir_maker.CreateProjectFiles(project_directory, "index.js", dir_contents.IndexFile)
 
+	// npm and  package.json file things
+	returnErr := install_packages.CheckNpm(project_directory)
 
-
-	// install basic packages in the package.json file
-
-	// install_packages.InstallPackages()
+	if returnErr != nil {
+		return
+	}
+	install_packages.InstallPackages(project_directory)
 }
-
-
-
 
 // is the provided cli_argument a string
 // or a directory
@@ -80,13 +77,6 @@ func IsArgumentDirectory(cli_argument string) bool {
 	return false
 }
 
-
-
-
-
-
-
-
 // split cli_argument if it contains a slash
 func SplitArgument(cli_argument string) (string, string) {
 
@@ -101,12 +91,6 @@ func SplitArgument(cli_argument string) (string, string) {
 
 	return split_argument[split_argument_length], argument_remainder
 }
-
-
-
-
-
-
 
 // check if the cli_argument provided an existing directory
 // project name
@@ -132,7 +116,3 @@ func AlreadyExist(cli_argument string) error {
 		return errors.New(error_message)
 	}
 }
-
-
-
-

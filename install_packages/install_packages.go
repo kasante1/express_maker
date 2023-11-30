@@ -2,57 +2,57 @@ package install_packages
 
 import (
 	"fmt"
-	"log"
-	"os"
 	"os/exec"
 )
 
-// create the project.json file
-func CreatePackageJson(project_dir string) {
+// is npm available in the dev env
+func CheckNpm(project_dir string) error {
 
 	npm := "npm"
 
-	init := "init"
+	version := "-v"
 
-	// options := "-"
-
-	auto_yes := "-y"
-
-	cmd := exec.Command(npm, init, auto_yes)
+	cmd := exec.Command(npm, version)
 
 	cmd.Dir = project_dir
 
 	err := cmd.Run()
-	
+
+	errMsg := "visit -> https://docs.npmjs.com/downloading-and-installing-node-js-and-npm"
+
 	if err != nil {
-		fmt.Printf("[ X ] %v create package json", err)
-		return 
+		fmt.Printf(
+			"[ X ] %v | %s ", err, errMsg)
+		return err
 	}
 
-	fmt.Println("[OK] create package json")
+	return nil
 }
 
 // install npm packages
 
-func InstallPackages() {
+func InstallPackages(project_dir string) {
 
-	packages, err := os.ReadFile("/packages.txt")
+	npm := "npm"
+	install := "install"
+
+	cmd := exec.Command(npm, install)
+
+	cmd.Dir = project_dir
+
+	err := cmd.Run()
 
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
 	}
 
-	package_contents := string(packages)
+	fmt.Println(err)
 
-	install_command := "npm install " + package_contents
+	sanitize_packages := `
 
-	cmd := exec.Command(install_command)
+[ ! ] run npm audit
+[ ! ] npm update --save
+`
 
-	output, run_err := cmd.Output()
-
-	if run_err != nil {
-		log.Fatal(run_err)
-	}
-
-	fmt.Println(output)
+	fmt.Println(sanitize_packages)
 }
