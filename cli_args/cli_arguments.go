@@ -46,12 +46,19 @@ func NewProjectDirectry(cli_argument string) {
 	dir_maker.CreateProjectFiles(project_directory, "index.js", dir_contents.IndexFile)
 
 	// npm and  package.json file things
-	returnErr := install_packages.CheckNpm(project_directory)
+	check_npm_err := install_packages.CheckNpm(project_directory)
 
-	if returnErr != nil {
+	if check_npm_err != nil {
 		return
 	}
-	install_packages.InstallPackages(project_directory)
+
+	// npm_init_err := install_packages.NpmInit(project_directory)
+
+	// if npm_init_err != nil {
+	// 	return
+	// }
+
+	// install_packages.InstallPackages(project_directory)
 }
 
 // is the provided cli_argument a string

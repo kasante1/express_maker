@@ -109,26 +109,6 @@ var package_json = `
 	  "url": ""
 	},
 	"homepage": "",
-	"dependencies": {
-	"bcrypt": "^5.1.1",
-    "chai": "^4.3.8",
-    "cors": "^2.8.5",
-    "cross-env": "^7.0.3",
-    "db-migrate": "^0.11.14",
-    "dotenv": "^16.3.1",
-    "express": "^4.18.2",
-    "express-enforces-ssl": "^1.1.0",
-    "mocha": "^10.2.0",
-    "nodemon": "^3.0.1",
-	},
-	"devDependencies": {
-	  "eslint",
-	  "eslint-config-airbnb-base",
-	  "eslint-config-prettier",
-	  "eslint-plugin-import",
-	  "eslint-plugin-prettier",
-	  "prettier",
-	}
   }
   
 
