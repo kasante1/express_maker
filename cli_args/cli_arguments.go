@@ -59,7 +59,7 @@ func NewProjectDirectry(cli_argument string) {
 	// }
 
 	for _, dependency := range install_packages.Dependencies{
-		fmt.Printf("\r installing  %s ... ", dependency)
+		fmt.Println("\r installing  %s ... ", dependency)
 		install_packages.InstallPackages(project_directory, dependency, "--save-prod")
 
 
@@ -67,7 +67,7 @@ func NewProjectDirectry(cli_argument string) {
 
 
 	for _, dependency := range install_packages.DevDependencies{
-		fmt.Printf("\r installing  %s ... ", dependency)
+		fmt.Println("\r installing  %s ... ", dependency)
 		install_packages.InstallPackages(project_directory, dependency, "--save-dev")
 
 	}
