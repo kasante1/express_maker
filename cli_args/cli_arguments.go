@@ -9,7 +9,7 @@ import (
 	"express_maker/dir_contents"
 	"path/filepath"
 	"strings"
-	"express_maker/install_packages"
+	// "express_maker/install_packages"
 )
 
 
@@ -41,6 +41,7 @@ func NewProjectDirectry(cli_argument string) {
 	
 	// create express js project files
 	dir_maker.CreateProjectFiles(project_directory, "README.md", dir_contents.ReadMeFile(cli_argument))
+	dir_maker.CreateProjectFiles(project_directory, "package.json", dir_contents.PackageJson(cli_argument))
 	dir_maker.CreateProjectFiles(project_directory, ".gitignore", dir_contents.GitIgnore)
 	dir_maker.CreateProjectFiles(project_directory, ".env", dir_contents.EnvFile)
 	dir_maker.CreateProjectFiles(project_directory, "database.json", dir_contents.DatabaseJson)
@@ -48,10 +49,9 @@ func NewProjectDirectry(cli_argument string) {
 
 
 
-	// create package.json file
-	install_packages.CreatePackageJson(project_directory)
-	//install basic packages
-	//install_packages.InstallPackages()
+	// install basic packages in the package.json file
+
+	// install_packages.InstallPackages()
 }
 
 

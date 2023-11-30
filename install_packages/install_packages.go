@@ -1,6 +1,5 @@
 package install_packages
 
-
 import (
 	"fmt"
 	"log"
@@ -8,38 +7,30 @@ import (
 	"os/exec"
 )
 
-
-
-
 // create the project.json file
 func CreatePackageJson(project_dir string) {
 
-	dir := "cd" + project_dir
+	npm := "npm"
 
-	create_package_json := "npm"
+	init := "init"
 
-	packages_args := "init"
+	// options := "-"
+
+	auto_yes := "-y"
+
+	cmd := exec.Command(npm, init, auto_yes)
+
+	cmd.Dir = project_dir
+
+	err := cmd.Run()
 	
-	auto_all := "--yes"
-
-	cmd := exec.Command(dir,"&&" ,create_package_json, packages_args, auto_all)
-
-	// fmt.Println(cmd)
-
-	output, err := cmd.Output()
-
 	if err != nil {
-		fmt.Println(err)
+		fmt.Printf("[ X ] %v create package json", err)
+		return 
 	}
 
-	fmt.Println("[OK]", string(output))
+	fmt.Println("[OK] create package json")
 }
-
-
-
-
-
-
 
 // install npm packages
 

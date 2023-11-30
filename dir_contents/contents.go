@@ -8,11 +8,9 @@ DEV_DATABASE_URL=postgres://<db_owner_name>:<password>PgAdmin@localhost:5432/<db
 SECRET=
 `
 
-
-
 func ReadMeFile(project_name string) string {
 
-	var fileContents = project_name + ` Project
+	var fileContents = project_name + ` -Project
 
 run
 
@@ -23,19 +21,15 @@ on the terminal to start express js project
 
 `
 
-
 	return fileContents
 }
-
-
 
 var GitIgnore = `
 node_modules
 .env
+.nyc_output
+coverage
 `
-
-
-
 
 var DatabaseJson = `
 {
@@ -51,7 +45,6 @@ var DatabaseJson = `
     "sql-file": true
 }
 `
-
 
 var IndexFile = `
 
@@ -82,7 +75,68 @@ module.exports = app;
 
 `
 
+func PackageJson(project_name string) string{
 
+
+var package_json = `
+{
+	"name":` + `"` + project_name + `"` + `,` +
+`
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"directories": {
+	  "test": "tests"
+	},
+	"scripts": {
+	  "test": "mocha tests/**/*.js",
+	  "coverage": "nyc mocha tests/**/*.js",
+	  "start": "nodemon index.js",
+	  "migrate:create": "db-migrate create --config database.json -e dev",
+	  "migrate:up": "db-migrate up --config database.json -e dev",
+	  "migrate:down": "db-migrate down -c 2000 --config database.json -e dev",
+	  "migrate-test:up": "db-migrate up --config database.json -e test",
+	  "migrate-test:down": "db-migrate down -c 200 -e test"
+	},
+	"repository": {
+	  "type": "",
+	  "url": ""
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+	  "url": ""
+	},
+	"homepage": "",
+	"dependencies": {
+	  "bcrypt",
+	  "chai",
+	  "cors",
+	  "cross-env",
+	  "db-migrate",
+	  "dotenv",
+	  "express",
+	  "express-enforces-ssl",
+	  "mocha",
+	  "nodemon",
+	},
+	"devDependencies": {
+	  "eslint",
+	  "eslint-config-airbnb-base",
+	  "eslint-config-prettier",
+	  "eslint-plugin-import",
+	  "eslint-plugin-prettier",
+	  "prettier",
+	}
+  }
+  
+
+`
+
+return package_json
+
+}
 
 
 var Services = ``
@@ -92,9 +146,6 @@ var Routes = ` `
 var Controllers = ` `
 
 var Middleware = ` `
-
-
-
 
 // index.js
 // README.md npm install npm run start
@@ -107,6 +158,7 @@ var Middleware = ` `
 
 var ExpressFiles = []string{
 	"README.md",
+	"package.json",
 	"index.js",
 	"database.json",
 	".env",

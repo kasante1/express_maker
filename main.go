@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	fmt.Println("express_maker!\n Usage: <project_name>")
+	fmt.Println("express_maker!\n	Usage: express_maker! <project_name>")
 	fmt.Println("")
 
 	if len(os.Args) == 1 {
