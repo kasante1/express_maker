@@ -109,6 +109,10 @@ var package_json = `
 	  "url": ""
 	},
 	"homepage": "",
+	"dependencies": {
+	  },
+	"devDependencies": {
+	}
   }
   
 

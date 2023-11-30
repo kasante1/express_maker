@@ -58,7 +58,32 @@ func NewProjectDirectry(cli_argument string) {
 	// 	return
 	// }
 
-	// install_packages.InstallPackages(project_directory)
+	for _, dependency := range install_packages.Dependencies{
+		fmt.Printf("\r installing  %s ... ", dependency)
+		install_packages.InstallPackages(project_directory, dependency, "--save-prod")
+
+
+	}
+
+
+	for _, dependency := range install_packages.DevDependencies{
+		fmt.Printf("\r installing  %s ... ", dependency)
+		install_packages.InstallPackages(project_directory, dependency, "--save-dev")
+
+	}
+
+	fmt.Println("Done ... ")
+
+
+
+	sanitize_packages := `
+
+[ ! ] run npm audit
+[ ! ] npm update --save
+`
+
+	fmt.Println(sanitize_packages)
+	
 }
 
 // is the provided cli_argument a string
@@ -84,6 +109,7 @@ func IsArgumentDirectory(cli_argument string) bool {
 	return false
 }
 
+
 // split cli_argument if it contains a slash
 func SplitArgument(cli_argument string) (string, string) {
 
@@ -98,6 +124,7 @@ func SplitArgument(cli_argument string) (string, string) {
 
 	return split_argument[split_argument_length], argument_remainder
 }
+
 
 // check if the cli_argument provided an existing directory
 // project name

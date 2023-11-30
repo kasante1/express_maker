@@ -20,10 +20,10 @@ func CreateProjectDirectory(cli_argument string) error {
 	err := os.Mkdir(cli_argument, os.ModePerm)
 
 	if err != nil {
-		return errors.New("[X] Failed! check directory permission")
+		return errors.New("[ X ] Failed! check directory permission")
 	}
 
-	fmt.Println("[OK] project created here :", cli_argument)
+	fmt.Println("[ OK ] project created here :", cli_argument)
 	return nil
 }
 
@@ -47,11 +47,11 @@ func CreateProjectFiles(SubDirectories, fileName, file_contents string) {
 		// write content to files
 		WriteProjectFiles(file_path, file_contents)
 
-		fmt.Println("[OK]", fileName, "created succesfully")
+		fmt.Println("[ OK ]", fileName, "created succesfully")
 
 	} else {
 
-		fmt.Println("[X]", fileName, "failed. already exits!")
+		fmt.Println("[ X ]", fileName, "failed. already exits!")
 	}
 }
 
@@ -102,7 +102,7 @@ func SubdirectoryMaker(cwd_dir string, dir_paths []string) {
 			fmt.Println("[ OK ] -", path, " --directory created")
 
 		}else{
-			fmt.Println("[X]", path, " -- failed! directory already exits")
+			fmt.Println("[ X ]", path, " -- failed! directory already exits")
 		}
 
 	

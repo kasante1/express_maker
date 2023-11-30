@@ -31,7 +31,6 @@ func CheckNpm(project_dir string) error {
 
 
 // init package json
-
 func NpmInit(project_dir string)error{
 	npm := "npm"
 
@@ -57,21 +56,13 @@ func NpmInit(project_dir string)error{
 }
 
 
-//TODO: loop through the packages in the packages file
-// install them into dependencies and dev depencies
-
-
-
-
-
 // install npm packages
-
-func InstallPackages(project_dir string) {
+func InstallPackages(project_dir, dependency, command string) {
 
 	npm := "npm"
 	install := "install"
 
-	cmd := exec.Command(npm, install)
+	cmd := exec.Command(npm, install, dependency, command)
 
 	cmd.Dir = project_dir
 
@@ -81,13 +72,5 @@ func InstallPackages(project_dir string) {
 		fmt.Println(err)
 	}
 
-	fmt.Println(err)
 
-	sanitize_packages := `
-
-[ ! ] run npm audit
-[ ! ] npm update --save
-`
-
-	fmt.Println(sanitize_packages)
 }
