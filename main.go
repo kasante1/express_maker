@@ -1,8 +1,8 @@
 package main
 
 import (
+	"express_maker/cliarguments"
 	"fmt"
-	"express_maker/cli_args"
 	"os"
 )
 
@@ -15,30 +15,25 @@ func main() {
 		return
 	}
 
-	// get fetch cli_arguments
-	cli_arguments := os.Args
-
 	// get cli project argument
-	cli_project_argument := cli_arguments[1]
+	cliArgument := os.Args[1]
 
 	// checked if the cli_argument supplied is a directory
-	var fileOrDirectory bool = cli_args.IsArgumentDirectory(cli_project_argument)
+	var fileOrDirectory bool = cliarguments.IsArgumentDirectory(cliArgument)
 
 	// if cli is a directory notify user or
 	// create project in the existing directory
 	if fileOrDirectory {
-		var dir_status error = cli_args.AlreadyExist(cli_project_argument)
+		var dir_status error = cliarguments.AlreadyExist(cliArgument)
 
 		if dir_status != nil {
 			fmt.Println(dir_status)
 		}
 
 	} else {
-		// if cli_project_argument is not a directory
+		// if cliArgument is not a directory
 		// create new directory in CWD
-		cli_args.NewProjectDirectry(cli_project_argument)
+		cliarguments.NewProjectDirectry(cliArgument)
 	}
 
 }
-
-

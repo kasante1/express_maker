@@ -1,13 +1,13 @@
-package cli_args
+package cliarguments
 
 import (
 	"fmt"
 	"os"
 	//"log"
 	"errors"
-	"express_maker/dir_contents"
-	"express_maker/dir_maker"
-	"express_maker/install_packages"
+	"express_maker/directorycontents"
+	"express_maker/directorymaker"
+	"express_maker/installpackages"
 	"path/filepath"
 	"strings"
 )
@@ -23,11 +23,11 @@ func NewProjectDirectry(cli_argument string) {
 		fmt.Println(err)
 	}
 
-	// join CWD and project name to get project_directory
-	project_directory := filepath.Join(path, cli_argument)
+	// join CWD and project name to get projectDirectory
+	projectDirectory := filepath.Join(path, cli_argument)
 
 	// check if the directory does not exits
-	file_status := AlreadyExist(project_directory)
+	file_status := AlreadyExist(projectDirectory)
 
 	if file_status != nil {
 		fmt.Println(file_status)
@@ -35,24 +35,24 @@ func NewProjectDirectry(cli_argument string) {
 	}
 
 	// create express js project directories/ folders
-	dir_maker.SubdirectoryMaker(project_directory, dir_contents.ExpressDirectories)
+	dir_maker.SubdirectoryMaker(projectDirectory, dir_contents.ExpressDirectories)
 
 	// create express js project files
-	dir_maker.CreateProjectFiles(project_directory, "README.md", dir_contents.ReadMeFile(cli_argument))
-	dir_maker.CreateProjectFiles(project_directory, "package.json", dir_contents.PackageJson(cli_argument))
-	dir_maker.CreateProjectFiles(project_directory, ".gitignore", dir_contents.GitIgnore)
-	dir_maker.CreateProjectFiles(project_directory, ".env", dir_contents.EnvFile)
-	dir_maker.CreateProjectFiles(project_directory, "database.json", dir_contents.DatabaseJson)
-	dir_maker.CreateProjectFiles(project_directory, "index.js", dir_contents.IndexFile)
+	dir_maker.CreateProjectFiles(projectDirectory, "README.md", dir_contents.ReadMeFile(cli_argument))
+	dir_maker.CreateProjectFiles(projectDirectory, "package.json", dir_contents.PackageJson(cli_argument))
+	dir_maker.CreateProjectFiles(projectDirectory, ".gitignore", dir_contents.GitIgnore)
+	dir_maker.CreateProjectFiles(projectDirectory, ".env", dir_contents.EnvFile)
+	dir_maker.CreateProjectFiles(projectDirectory, "database.json", dir_contents.DatabaseJson)
+	dir_maker.CreateProjectFiles(projectDirectory, "index.js", dir_contents.IndexFile)
 
 	// npm and  package.json file things
-	check_npm_err := install_packages.CheckNpm(project_directory)
+	check_npm_err := install_packages.CheckNpm(projectDirectory)
 
 	if check_npm_err != nil {
 		return
 	}
 
-	// npm_init_err := install_packages.NpmInit(project_directory)
+	// npm_init_err := install_packages.NpmInit(projectDirectory)
 
 	// if npm_init_err != nil {
 	// 	return
@@ -60,7 +60,7 @@ func NewProjectDirectry(cli_argument string) {
 
 	for _, dependency := range install_packages.Dependencies{
 		fmt.Println("\r installing  %s ... ", dependency)
-		install_packages.InstallPackages(project_directory, dependency, "--save-prod")
+		install_packages.InstallPackages(projectDirectory, dependency, "--save-prod")
 
 
 	}
@@ -68,7 +68,7 @@ func NewProjectDirectry(cli_argument string) {
 
 	for _, dependency := range install_packages.DevDependencies{
 		fmt.Println("\r installing  %s ... ", dependency)
-		install_packages.InstallPackages(project_directory, dependency, "--save-dev")
+		install_packages.InstallPackages(projectDirectory, dependency, "--save-dev")
 
 	}
 
@@ -96,9 +96,9 @@ func IsArgumentDirectory(cli_argument string) bool {
 
 	if strings.Contains(cli_argument, "/") {
 
-		dir_argument, _ := SplitArgument(cli_argument)
-		// check if the dir_argument is a directory
-		if _, err := os.Stat(dir_argument); errors.Is(err, os.ErrExist) {
+		dirArgument, _ := SplitCliArgument(cli_argument)
+		// check if the dirArgument is a directory
+		if _, err := os.Stat(dirArgument); errors.Is(err, os.ErrExist) {
 			return true
 		}
 		//check if the cli_argument is an existing directory
@@ -111,18 +111,18 @@ func IsArgumentDirectory(cli_argument string) bool {
 
 
 // split cli_argument if it contains a slash
-func SplitArgument(cli_argument string) (string, string) {
+func SplitCliArgument(cli_argument string) (string, string) {
 
 	// split cli_argument by the slash delimiter
-	split_argument := strings.Split(cli_argument, "/")
+	splitArgs := strings.Split(cli_argument, "/")
 
 	//get string slice length
-	split_argument_length := len(split_argument) - 1
+	splitArgs_length := len(splitArgs) - 1
 
 	// get last cli_argument string
-	argument_remainder := strings.Join(split_argument[split_argument_length:], "")
+	argument_remainder := strings.Join(splitArgs[splitArgs_length:], "")
 
-	return split_argument[split_argument_length], argument_remainder
+	return splitArgs[splitArgs_length], argument_remainder
 }
 
 
