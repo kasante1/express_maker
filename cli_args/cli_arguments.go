@@ -27,7 +27,7 @@ func NewProjectDirectry(cli_argument string) {
 	project_directory := filepath.Join(path, cli_argument)
 
 	// check if the directory does not exits
-	file_status := AlreadyExist(project_directory)
+	file_status := DirectoryExists(project_directory)
 
 	if file_status != nil {
 		fmt.Println(file_status)
@@ -126,9 +126,9 @@ func SplitArgument(cli_argument string) (string, string) {
 }
 
 
-// check if the cli_argument provided an existing directory
-// project name
-func AlreadyExist(cli_argument string) error {
+// check if the cli_argument provided is an existing directory
+// name
+func DirectoryExists(cli_argument string) error {
 
 	// is the cli_argument provided an existing directory
 	if _, err := os.Stat(cli_argument); errors.Is(err, os.ErrNotExist) {

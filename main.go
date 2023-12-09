@@ -27,7 +27,7 @@ func main() {
 	// if cli is a directory notify user or
 	// create project in the existing directory
 	if fileOrDirectory {
-		var dir_status error = cli_args.AlreadyExist(cli_project_argument)
+		var dir_status error = cli_args.DirectoryExists(cli_project_argument)
 
 		if dir_status != nil {
 			fmt.Println(dir_status)
